@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mobile Detailing Booking</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("YOUR_PUBLIC_KEY");
+    })();
+
+    function selectService(serviceName) {
+      document.getElementById('service').value = serviceName;
+      document.getElementById('bookingForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function sendBookingEmail() {
+      const bookingInfo = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        service: document.getElementById('service').value,
+        time: document.getElementById('time').value,
+        address: document.getElementById('address').value
+      };
+
+      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", bookingInfo)
+        .then(() => {
+          alert("Booking sent successfully!");
+        }, (err) => {
+          alert("Failed to send booking: " + JSON.stringify(err));
+        });
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h1, h2 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .pricing-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px auto;
+      max-width: 1000px;
+    }
+    .price-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 280px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .price-card h3 {
+      margin-bottom: 10px;
+    }
+    .price-card p {
+      margin: 5px 0;
+    }
+    .price-card button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #bookingForm {
+      background-color: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: 40px auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+    }
+    #bookingForm input, #bookingForm button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #bookingForm button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    #bookingForm button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mobile Detailing Pricing & Booking</h1>
+
+  <div class="pricing-container">
+    <div class="price-card">
+      <h3>Interior Detail</h3>
+      <p>$200</p>
+      <p>Deep clean, vacuum, leather conditioning, UV protection</p>
+      <button onclick="selectService('Interior Detail - $200')">Select</button>
+    </div>
+    <div class="price-card">
+      <h3>Exterior Detail</h3>
+      <p>$150</p>
+      <p>Hand wash, wax, tire shine, windows</p>
+      <button onclick="selectService('Exterior Detail - $150')">Select</button>
+    </div>
+    <div class="price-card">
+      <h3>Interior & Exterior</h3>
+      <p>$250</p>
+      <p>Full inside and out clean, all services included</p>
+      <button onclick="selectService('Interior & Exterior - $250')">Select</button>
+    </div>
+  </div>
+
+  <form id="bookingForm">
+    <h2>Book Your Appointment</h2>
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <input type="text" id="service" placeholder="Selected Service" required readonly>
+    <input type="text" id="time" placeholder="Preferred Date & Time" required>
+    <input type="text" id="address" placeholder="Service Address" required>
+    <button type="button" onclick="sendBookingEmail()">Book Now</button>
+  </form>
+
+</body>
+</html>
